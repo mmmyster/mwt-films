@@ -1,0 +1,12 @@
+<h1>Group details</h1>
+<ul>
+  <li>id: {{group.id}}</li>
+  <li>name: {{group.name}}</li>
+  <li>permissions:
+    <ul>
+      @for(perm of group.permissions; track $index) {
+        <li>{{perm}}</li>
+      }
+    </ul>
+  </li>
+</ul>

@@ -1,0 +1,10 @@
+<h2>Groups</h2>
+<ul>
+@for(group of groups; track group.id){
+  <li><a routerLink="./detail/{{group.id}}"> {{group.name}}</a> 
+    <a mat-icon-button color="primary" aria-label="edit group" routerLink="./edit/{{group.id}}">
+      <mat-icon>edit</mat-icon>
+    </a>
+  </li>
+}
+</ul>

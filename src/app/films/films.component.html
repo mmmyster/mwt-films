@@ -1,0 +1,48 @@
+<mat-form-field appearance="outline">
+  <mat-label>Filter: </mat-label>
+  <input matInput (input)="onFilter($event)">
+</mat-form-field>
+<table matSort mat-table [dataSource]="filmsS()">
+  <mat-text-column name="id" headerText="ID"></mat-text-column>
+  <ng-container matColumnDef="nazov">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Názov</th>
+    <td mat-cell *matCellDef="let film"> 
+      {{film.nazov}} 
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="slovenskyNazov">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Slovenský názov</th>
+    <td mat-cell *matCellDef="let film"> 
+      {{film.slovenskyNazov}} 
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="rok">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Rok</th>
+    <td mat-cell *matCellDef="let film"> 
+      {{film.rok}} 
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="afi1998">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>AFI 1998</th>
+    <td mat-cell *matCellDef="let film"> 
+      {{film.poradieVRebricku['AFI 1998']}} 
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="afi2007">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>AFI 2007</th>
+    <td mat-cell *matCellDef="let film"> 
+      {{film.poradieVRebricku['AFI 2007']}} 
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplayS()"></tr>
+  <tr mat-row *matRowDef="let film; columns: columnsToDisplayS()">
+  </tr>
+</table>
+
+<mat-paginator 
+              [length]="responseS()?.totalCount || 10"
+              [pageSize]="5"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page">
+</mat-paginator>

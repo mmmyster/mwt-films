@@ -1,0 +1,10 @@
+.login_card {
+  width: 400px;
+  margin: 10px auto;
+}
+.login_card mat-form-field {
+  display: block;
+}
+.login_card mat-card-actions button, mat-card-header {
+  margin: 0 auto;
+}

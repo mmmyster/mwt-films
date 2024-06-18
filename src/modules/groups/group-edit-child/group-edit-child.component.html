@@ -1,0 +1,19 @@
+<h2>Editing group: {{group.name}}</h2>
+<form (ngSubmit)="submit()" #formModel="ngForm">
+  <mat-form-field>
+    <mat-label>Group name</mat-label>
+    <input matInput [(ngModel)]="groupName" name="name" required #nameModel="ngModel">
+    <mat-error>
+    @if(nameModel.errors && nameModel.errors['required']) {
+        Group name is mandatory
+    } 
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Permissions</mat-label>
+    <input matInput [(ngModel)]="permissions" name="perms">
+  </mat-form-field>
+
+  <button mat-button type="submit" [disabled]="formModel.form.invalid">Save</button>
+</form>

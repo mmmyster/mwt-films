@@ -1,0 +1,25 @@
+<!-- @if(errorMessage) {
+  <p class="error">{{errorMessage}}</p>
+} -->
+<ul>
+  <li *ngFor="let user of users">{{user.name}}, {{user.email}}</li>
+</ul>
+
+<ul>
+  @for(user of users; track user) {
+    <li (click)="selectUser(user)">{{user}}</li>
+  }
+</ul>
+<p *ngIf="selectedUser">Selected user: {{selectedUser.name}}</p>
+@if(selectedUser) {
+  <p>Selected user: {{selectedUser.name}}</p>
+}
+
+<table mat-table [dataSource]="users">
+  <mat-text-column name="id" headerText="ID"></mat-text-column>
+  <mat-text-column name="email" headerText="Email"></mat-text-column>
+  <mat-text-column name="name" headerText="Name"></mat-text-column>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+</table>

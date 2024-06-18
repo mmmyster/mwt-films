@@ -1,0 +1,71 @@
+<h2>
+  @if(userId) {
+    Editing user {{user.name}} with id {{userId}}
+  } @else {
+    Insert new user
+  }
+</h2>
+<form (ngSubmit)="submit()" [formGroup]="editForm">
+  <mat-card class="login_card">
+    <mat-card-header>
+      <mat-card-title></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>User name</mat-label>
+        <input matInput formControlName="login">
+        <mat-error>
+          @if(login.errors) {
+            @if (login.errors['required']) {
+              User name is mandatory
+            } @else if(login.errors['minlength']) {
+              Length must be at least {{login.errors['minlength']['requiredLength']}}
+            } @else if(login.errors['serverConflict']) {
+              {{login.errors['serverConflict']}}
+            } 
+          } 
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>E-mail</mat-label>
+        <input matInput type="email" formControlName="email">
+        <mat-error>
+          @if(email.errors) {
+            @if (email.errors['required']) {
+              E-mail is mandatory
+            }  @else if(email.errors['serverConflict']) {
+              {{email.errors['serverConflict']}}
+            } @else {
+              Email is in wrong format
+            }
+          } 
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+        <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-slide-toggle formControlName="active">Active</mat-slide-toggle>
+      <p>Member of groups:</p>
+      <div formArrayName="groups">
+      @for(group of groups.controls; track i; let i = $index) {
+        <mat-checkbox [formControlName]="i">{{allGroups[i].name}}</mat-checkbox>
+      }
+      </div>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button type="submit" [disabled]="editForm.invalid">Save</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
+
+@if(userId) {
+  <a routerLink="../{{userId-1}}" mat-raised-button color="primary">previous</a>
+  <a routerLink="../{{userId+1}}" mat-raised-button color="primary">next</a>
+}

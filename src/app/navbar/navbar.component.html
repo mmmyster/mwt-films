@@ -1,0 +1,21 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Films app</span>
+  <button mat-flat-button color="primary" routerLink="/users" routerLinkActive="active"><mat-icon>group</mat-icon>users</button>
+  <button mat-flat-button color="primary" routerLink="/extended-users" routerLinkActive="active"><mat-icon>group</mat-icon>Extended users</button>
+  <button mat-flat-button color="primary" routerLink="/groups" routerLinkActive="active"><mat-icon>group</mat-icon>Groups</button>
+  <button mat-flat-button color="primary" routerLink="/films" routerLinkActive="active">
+    <mat-icon>video_camera_back</mat-icon>Films</button> 
+  <button mat-flat-button color="primary" routerLink="/chat" routerLinkActive="active">
+    <mat-icon>chat</mat-icon>Chat</button> 
+    <span class="spacer"></span>
+  @if(userNameSignal()) {
+    <span>{{userNameSignal()}}</span>
+    <button mat-flat-button color="primary" (click)="logout()"><mat-icon>logout</mat-icon>logout</button>
+  } @else {
+    <button mat-flat-button color="primary" routerLink="/register" routerLinkActive="active"><mat-icon>person_add</mat-icon>register</button>
+    <button mat-flat-button color="primary" routerLink="/login" routerLinkActive="active"><mat-icon>login</mat-icon>login</button>
+  }
+</mat-toolbar>

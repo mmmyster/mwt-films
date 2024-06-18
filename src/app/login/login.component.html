@@ -1,0 +1,36 @@
+<form (ngSubmit)="submit()" #formModel="ngForm">
+  <mat-card class="login_card">
+    <mat-card-header>
+      <mat-card-title>Please, log in</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>User name</mat-label>
+        <input matInput [(ngModel)]="auth.name" name="name" required minlength="3" maxlength="10"
+           #nameModel="ngModel">
+        <mat-hint>Insert your login name</mat-hint>
+        <mat-error>
+        @if(nameModel.errors) {
+          @if (nameModel.errors['required']) {
+            User name is mandatory
+          } @else if(nameModel.errors['minlength']) {
+            Length must be at least {{nameModel.errors['minlength']['requiredLength']}}
+          } 
+        } 
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="auth.password" name="pass" required>
+        <button mat-icon-button matSuffix (click)="hide = !hide" type="button">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button type="submit" [disabled]="formModel.form.invalid">Log in</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
