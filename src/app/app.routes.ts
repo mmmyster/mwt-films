@@ -5,6 +5,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ExtendedUsersComponent } from './extended-users/extended-users.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { authGuard, authMatchGuard } from '../guards/auth.guard';
+import { FilmEditComponent } from './film-edit/film-edit.component';
 
 export const routes: Routes = [
   {path: 'users', component: UsersComponent},
@@ -24,6 +25,8 @@ export const routes: Routes = [
     canMatch: [authMatchGuard]
   },
   {path: 'films', loadComponent: () => import('./films/films.component').then(mod => mod.FilmsComponent)},
+	{path: 'film/edit/:id', component: FilmEditComponent},
+	{path: 'film/new', component: FilmEditComponent},
   {path: '', redirectTo: '/login', pathMatch: 'full'},
   {path: '**', component: PageNotFoundComponent}
 ];
