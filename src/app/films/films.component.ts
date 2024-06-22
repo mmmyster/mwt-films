@@ -7,16 +7,20 @@ import { MaterialModule } from '../../modules/material.module';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { switchMap, tap } from 'rxjs';
+import { RouterLink } from '@angular/router';
+import { ConfirmService } from '../../services/confirm.service';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-films',
   standalone: true,
-  imports: [MaterialModule],
+  imports: [MaterialModule, RouterLink],
   templateUrl: './films.component.html',
   styleUrl: './films.component.css',
 })
 export class FilmsComponent implements AfterViewInit {
   filmsService = inject(FilmsService);
+	confirmService = inject(ConfirmService);
   usersService = inject(UsersService);
   userNameS = this.usersService.loggedUserSignal;
 
@@ -42,6 +46,7 @@ export class FilmsComponent implements AfterViewInit {
   responseS = toSignal(this.request$);
   filmsS = computed(() => this.responseS()?.items || []);
   
+	filmsDataSource = new MatTableDataSource<Film>();
 
   ngAfterViewInit(): void {
     this.paginatorS().page.subscribe(pageEvent => {
@@ -69,6 +74,34 @@ export class FilmsComponent implements AfterViewInit {
     const filter = (event.target.value as string).trim().toLowerCase();
     this.searchS.set(filter);
     this.paginatorS().firstPage();
+  }
+
+  loadFilms() {
+    this.filmsService.getFilms(
+      this.orderByS(), 
+      this.descendingS(), 
+      this.indexFromS(), 
+      this.indexToS(), 
+      this.searchS()
+    ).subscribe(response => {
+      this.filmsDataSource.data = response.items;
+      if (this.paginatorS()) {
+        this.paginatorS().length = response.totalCount;
+      }
+    });
+  }
+
+  onDelete(film: Film) {
+    this.confirmService.confirm({
+      title: 'Deleting film',
+      question: 'Do you really want to delete film ' + film.nazov + '?'
+    }).subscribe(answer => {
+      if (answer) {
+        this.filmsService.deleteFilm(film.id!).subscribe(success => {
+          this.loadFilms();
+        });     
+      }
+    });
   }
 }
 

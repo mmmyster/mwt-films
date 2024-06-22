@@ -52,6 +52,18 @@ export class FilmsService {
       catchError((err) => this.usersService.processError(err))
     );
   }
+
+	deleteFilm(id: number): Observable<boolean> {
+		let options = this.getTokenHeader();
+    return this.http.delete(this.url + 'films/' + id, options).pipe(
+      map(() => {
+        this.messageService.success('Film deleted');
+        return true;
+      }),
+      catchError((err) => this.usersService.processError(err))
+    );
+  }
+
   getFilms(orderBy?:string, descending?: boolean, indexFrom?: number, indexTo?: number, search?: string): Observable<FilmsResponse> {
     let options = this.getTokenHeader();
     if (orderBy || descending || indexFrom || indexTo || search) {
